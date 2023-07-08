@@ -6,9 +6,9 @@ const ApiSwgoh = () => {
   const [apiSwgoh, setApiSwgoh] = useState([]);
 
   const fetchApiSwgoh = async () => {
-    const response = await global.fetch('http://api.swgoh.gg/characters/');
+    const response = await global.fetch('http://api.swgoh.gg/units/');
     const json = await response.json();
-    setApiSwgoh(json);
+    setApiSwgoh(json.data);
   };
 
   useEffect(() => {
