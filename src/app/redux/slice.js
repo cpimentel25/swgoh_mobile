@@ -1,14 +1,19 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-const initialState = {};
+const initialState = {
+  filterName: '',
+};
 
-export const mySlice = createSlice({
+export const counterSlice = createSlice({
   name: 'swgohSlice',
   initialState,
-  reducers: {},
+  reducers: {
+    setFilterName: (state, action) => {
+      state.filterName = action.payload;
+    },
+  },
 });
 
-// Exporta las acciones generadas automáticamente por Redux Toolkit
-export const {} = mySlice.actions;
+export const { setFilterName } = counterSlice.actions;
 
-export default mySlice.reducer;
+export default counterSlice.reducer;

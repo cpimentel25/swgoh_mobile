@@ -1,11 +1,13 @@
 import React from 'react';
-import { Text, View } from 'react-native';
+import { View } from 'react-native';
 import CharList from './CharactersList';
-import Constants from 'expo-constants';
+import AppBar from './AppBar';
+import theme from '../theme';
 
 const Main = () => {
   return (
-    <View style={{ marginTop: Constants.statusBarHeight, flexGrow: 1 }}>
+    <View style={{ flex: 1, backgroundColor: theme.colors.background }}>
+      <AppBar />
       <CharList />
     </View>
   );

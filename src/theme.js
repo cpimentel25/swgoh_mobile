@@ -1,4 +1,7 @@
 const theme = {
+  appBar: {
+
+  },
   colors: {
     textPrimary: '#F9F7F7',
     textSecundary: '#DBE2EF',

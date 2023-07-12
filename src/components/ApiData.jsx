@@ -1,71 +1,9 @@
 import React from 'react';
 import { View, StyleSheet } from 'react-native';
-import StylesImage from './ImageStyles';
 import StylesText from './TextStyles';
 import theme from '../theme';
-
-const DataHeader = (data) => {
-  return (
-    <View
-      style={{
-        flexDirection: 'row',
-        alignItems: 'center',
-        justifyContent: 'space-between',
-        marginTop: 15,
-        marginBottom: 10,
-      }}
-    >
-      <View style={{ alignItems: 'center', width: 70, height: 50 }}>
-        <StylesText bold titleOne>Power</StylesText>
-        <StylesText>{data.power}</StylesText>
-      </View>
-      <StylesImage
-        alignment={data.alignment}
-        image={data.image}
-        style={{ width: 50, height: 50 }}
-      />
-      <View style={{ alignItems: 'center', width: 70, height: 50 }}>
-        <StylesText bold titleOne>Role</StylesText>
-        <StylesText>{data.role}</StylesText>
-      </View>
-    </View>
-  );
-};
-
-const DataCategories = (data) => {
-  const { categories } = data;
-  const wordsArray = categories.join('|').split('|');
-
-  const styles = StyleSheet.create({
-    container: {
-      flexDirection: 'row',
-      paddingHorizontal: 16,
-      justifyContent: 'center',
-      flexWrap: 'wrap',
-    },
-    containerWord: {
-      marginRight: 10,
-      color: theme.colors.textSecundary,
-    },
-  });
-
-  return (
-    <View style={{ marginBottom: 10 }}>
-      <View style={{ alignItems: 'center', marginBottom: 5, marginTop: 10 }}>
-        <StylesText bold subHeading>
-          Categories
-        </StylesText>
-      </View>
-      <View style={styles.container}>
-        {wordsArray.map((word, index) => (
-          <StylesText key={index} style={styles.containerWord}>
-            {word}
-          </StylesText>
-        ))}
-      </View>
-    </View>
-  );
-};
+import UnitsHeader from './UnitsHeader';
+import UnitsCategories from './UnitsCategorie';
 
 const SwgohItem = ({ data }) => {
   const borderStyles = [
@@ -81,14 +19,14 @@ const SwgohItem = ({ data }) => {
   return (
     <View key={data.base_id} style={style.container}>
       <View style={borderStyles}>
-        <DataHeader {...data} />
+        <UnitsHeader {...data} />
         <View style={{ alignItems: 'center' }}>
           <StylesText heading bold titleTwo>
             {data.name}
           </StylesText>
           <StylesText>{data.description}</StylesText>
         </View>
-        <DataCategories {...data} />
+        <UnitsCategories {...data} />
         <View
           style={{
             flexDirection: 'row',
@@ -147,7 +85,6 @@ const style = StyleSheet.create({
     paddingTop: 5,
     marginVertical: 0,
     marginHorizontal: 0,
-    backgroundColor: theme.colors.background,
   },
 });
 
