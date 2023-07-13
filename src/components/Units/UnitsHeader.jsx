@@ -1,6 +1,7 @@
+import React from "react";
 import { View } from "react-native";
-import StylesText from "./TextStyles";
-import StylesImage from "./ImageStyles";
+import StylesText from "../TextStyles";
+import StylesImage from "../ImageStyles";
 
 const UnitsHeader = (data) => {
   return (

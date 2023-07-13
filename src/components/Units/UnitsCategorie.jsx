@@ -1,6 +1,6 @@
 import { StyleSheet, View } from "react-native";
-import StylesText from "./TextStyles";
-import theme from "../theme";
+import StylesText from "../TextStyles";
+import theme from "../../theme";
 
 const UnitsCategories = (data) => {
   const { categories } = data;

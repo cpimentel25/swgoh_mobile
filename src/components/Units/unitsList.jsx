@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, StyleSheet } from 'react-native';
-import StylesText from './TextStyles';
-import theme from '../theme';
+import StylesText from '../TextStyles';
+import theme from '../../theme';
 import UnitsHeader from './UnitsHeader';
 import UnitsCategories from './UnitsCategorie';
 
