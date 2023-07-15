@@ -15,6 +15,7 @@ const theme = {
     borderCardNeutralSide: '#EDEEF7',
     background: '#181823',
     backgroundInsideCard: '#001C30',
+    backgroundFilterOp: '#27374D',
   },
   fontSizes: {
     body: 14,
@@ -31,7 +32,7 @@ const theme = {
   backgroundContainer: {
     flex: 1,
     backgroundColor: '#181823',
-    justifyContent: 'center',
+    justifyContent: 'space-around',
   },
   buttonPrimary: {
     content: {

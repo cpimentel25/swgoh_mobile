@@ -1,7 +1,10 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { ScrollView, StyleSheet, View } from 'react-native';
 import theme from '../../theme';
 import { CheckBox, Divider } from '@rneui/base';
+import { useDispatch } from 'react-redux';
+import { setFilterOptions } from '../../app/redux/slice';
+import CheckBoxOp from './CheckBox';
 
 const SelectFilter = () => {
   const checkBoxSide = ['lightSide', 'darkSide', 'neutral'];
@@ -33,28 +36,86 @@ const SelectFilter = () => {
     'sithEmpire',
   ];
 
-  const [filterState, setFilterState] = useState({
-    lightSide: false,
-    darkSide: false,
-    neutral: false,
-    support: false,
-    attacker: false,
-    capitalShip: false,
-    healer: false,
-    leader: false,
-    tank: false,
-  });
+  const checkBoxProfession = [
+    'badBatch',
+    'bountyHunter',
+    'cloneTrooper',
+    'inquisitorius',
+    'jedi',
+    'scoundrel',
+    'sith',
+    'smuggler',
+  ];
 
-  const handleCheckBoxChange = (stateName, value) => {
-    setFilterState((prevState) => ({
-      ...prevState,
-      [stateName]: value,
-    }));
+  const checkBoxSpecies = [
+    'droid',
+    'ewok',
+    'geonosian',
+    'jawa',
+    'tusken',
+    'wookiee',
+  ];
+
+  //'Object.fromEntries' genera un objeto con todas las opciones como claves
+  // y sus valores iniciales establecidos en false.
+  const initialState = Object.fromEntries(
+    [
+      ...checkBoxSide,
+      ...checkBoxRol,
+      ...checkBoxAffiliation,
+      ...checkBoxProfession,
+      ...checkBoxSpecies,
+    ].map((option) => [option, false])
+  );
+
+  const [filterState, setFilterState] = useState(initialState);
+
+  //Filter true value
+  const selectOptions = Object.entries(filterState)
+    .filter(([key, value]) => value === true)
+    .map(([key, value]) => key);
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(setFilterOptions(selectOptions));
+  }, [selectOptions]);
+
+  const handleCheckBoxChange = (stateName) => {
+    setFilterState((prevState) => {
+      const updateState = { ...prevState };
+
+      // Obtener el grupo de checkboxes según el stateName
+      const checkBoxGroup = checkBoxSide.includes(stateName)
+        ? checkBoxSide
+        : checkBoxRol.includes(stateName)
+        ? checkBoxRol
+        : checkBoxAffiliation.includes(stateName)
+        ? checkBoxAffiliation
+        : checkBoxProfession.includes(stateName)
+        ? checkBoxProfession
+        : checkBoxSpecies.includes(stateName)
+        ? checkBoxSpecies
+        : [];
+
+      // Establecer todas las opciones en 'false', excepto la seleccionada
+      checkBoxGroup.forEach((option) => {
+        updateState[option] = option === stateName && !prevState[option];
+      });
+
+      return updateState;
+    });
   };
 
   return (
     <ScrollView>
       <View style={styles.container}>
+        <Divider
+          inset={true}
+          insetType='middle'
+          width={3}
+          color={theme.colors.yellow}
+        />
         <View
           style={{
             flexDirection: 'row',
@@ -65,24 +126,10 @@ const SelectFilter = () => {
           }}
         >
           {checkBoxSide.map((side) => (
-            <CheckBox
-              key={side}
-              checked={filterState[side]}
-              title={side.replace(/([A-Z])/g, ' $1').toUpperCase().trim()}
-              textStyle={{
-                color: theme.colors.yellow,
-                fontSize: 15,
-                marginLeft: 0,
-              }}
-              onPress={() => handleCheckBoxChange(side, !filterState[side])}
-              checkedColor={theme.colors.yellow}
-              uncheckedColor={theme.colors.yellow}
-              size={30}
-              width={'44%'}
-              iconType='material-community'
-              checkedIcon='checkbox-marked'
-              uncheckedIcon='checkbox-blank-outline'
-              containerStyle={{ backgroundColor: 'transparente' }}
+            <CheckBoxOp
+              data={side}
+              filter={filterState}
+              func={handleCheckBoxChange}
             />
           ))}
         </View>
@@ -102,24 +149,10 @@ const SelectFilter = () => {
           }}
         >
           {checkBoxRol.map((rol) => (
-            <CheckBox
-              key={rol}
-              checked={filterState[rol]}
-              title={rol.replace(/([A-Z])/g, ' $1').toUpperCase().trim()}
-              textStyle={{
-                color: theme.colors.yellow,
-                fontSize: 15,
-                marginLeft: 0,
-              }}
-              onPress={() => handleCheckBoxChange(rol, !filterState[rol])}
-              checkedColor={theme.colors.yellow}
-              uncheckedColor={theme.colors.yellow}
-              size={30}
-              width={'44%'}
-              iconType='material-community'
-              checkedIcon='checkbox-marked'
-              uncheckedIcon='checkbox-blank-outline'
-              containerStyle={{ backgroundColor: 'transparente' }}
+            <CheckBoxOp
+              data={rol}
+              filter={filterState}
+              func={handleCheckBoxChange}
             />
           ))}
         </View>
@@ -139,24 +172,56 @@ const SelectFilter = () => {
           }}
         >
           {checkBoxAffiliation.map((aff) => (
-            <CheckBox
-              key={aff}
-              checked={filterState[aff]}
-              title={aff.replace(/([A-Z])/g, ' $1').toUpperCase().trim()}
-              textStyle={{
-                color: theme.colors.yellow,
-                fontSize: 15,
-                marginLeft: 0,
-              }}
-              onPress={() => handleCheckBoxChange(aff, !filterState[aff])}
-              checkedColor={theme.colors.yellow}
-              uncheckedColor={theme.colors.yellow}
-              size={30}
-              width={'44%'}
-              iconType='material-community'
-              checkedIcon='checkbox-marked'
-              uncheckedIcon='checkbox-blank-outline'
-              containerStyle={{ backgroundColor: 'transparente' }}
+            <CheckBoxOp
+              data={aff}
+              filter={filterState}
+              func={handleCheckBoxChange}
+            />
+          ))}
+        </View>
+        <Divider
+          inset={true}
+          insetType='middle'
+          width={3}
+          color={theme.colors.yellow}
+        />
+        <View
+          style={{
+            flexDirection: 'row',
+            flexWrap: 'wrap',
+            justifyContent: 'flex-start',
+            marginRight: 10,
+            marginLeft: 10,
+          }}
+        >
+          {checkBoxProfession.map((prof) => (
+            <CheckBoxOp
+              data={prof}
+              filter={filterState}
+              func={handleCheckBoxChange}
+            />
+          ))}
+        </View>
+        <Divider
+          inset={true}
+          insetType='middle'
+          width={3}
+          color={theme.colors.yellow}
+        />
+        <View
+          style={{
+            flexDirection: 'row',
+            flexWrap: 'wrap',
+            justifyContent: 'flex-start',
+            marginRight: 10,
+            marginLeft: 10,
+          }}
+        >
+          {checkBoxSpecies.map((spec) => (
+            <CheckBoxOp
+              data={spec}
+              filter={filterState}
+              func={handleCheckBoxChange}
             />
           ))}
         </View>
