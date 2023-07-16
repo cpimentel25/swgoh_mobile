@@ -20,43 +20,13 @@ const SwgohItem = ({ data }) => {
     <View key={data.base_id} style={style.container}>
       <View style={borderStyles}>
         <UnitsHeader {...data} />
-        <View style={{ alignItems: 'center' }}>
+        <View>
           <StylesText heading bold titleTwo>
             {data.name}
           </StylesText>
-          <StylesText>{data.description}</StylesText>
+          <UnitsCategories {...data} />
+          {/* <StylesText>{data.description}</StylesText> */}
         </View>
-        <UnitsCategories {...data} />
-        <View
-          style={{
-            flexDirection: 'row',
-            alignItems: 'center',
-            justifyContent: 'space-around',
-            marginBottom: 10,
-          }}
-        >
-          <StylesText bold>Activate shards</StylesText>
-          <StylesText>{data.activate_shard_count}</StylesText>
-          <StylesText bold>Release</StylesText>
-          <StylesText>{data.made_available_on}</StylesText>
-        </View>
-        {data.ship_base_id ? (
-          <StylesText>ship: {data.ship_base_id}</StylesText>
-        ) : null}
-        {data.is_capital_ship ? (
-          <StylesText>is capital ship: {data.is_capital_ship}</StylesText>
-        ) : null}
-        {data.crew_base_ids.length > 0 ? (
-          <StylesText>crew base ids: {data.crew_base_ids}</StylesText>
-        ) : null}
-        {/* <StylesText>base_id: {data.base_id}</StylesText> */}
-        {/* <StylesText>Combat type: {data.combat_type}</StylesText> */}
-        {/* <StylesText>Alignment :{data.alignment}</StylesText> */}
-        {/* <StylesText>Ability classes: {data.ability_classes}</StylesText> */}
-        {/* <StylesText>Ship slot: {data.ship_slot}</StylesText> */}
-        {/* <StylesText>is galactic legend: {data.is_galactic_legend}</StylesText> */}
-        {/* <StylesText>omicron ability ids: {data.omicron_ability_ids}</StylesText> */}
-        {/* <StylesText>zeta ability ids: {data.zeta_ability_ids}</StylesText> */}
       </View>
     </View>
   );
@@ -64,6 +34,7 @@ const SwgohItem = ({ data }) => {
 
 const style = StyleSheet.create({
   dataCard: {
+    // width: '100%',
     backgroundColor: theme.colors.backgroundInsideCard,
     borderWidth: 1,
     borderTopEndRadius: 10,
@@ -71,16 +42,18 @@ const style = StyleSheet.create({
     borderEndWidth: 4,
   },
   borderCardLightSide: {
-    borderColor: theme.colors.borderCardLightSide,
+    // borderColor: theme.colors.borderCardLightSide,
   },
   borderCardDarkSide: {
-    borderColor: theme.colors.borderCardDarkSide,
+    // borderColor: theme.colors.borderCardDarkSide,
   },
   borderCardNeutralSide: {
     borderColor: theme.colors.borderCardNeutralSide,
   },
   container: {
-    padding: 20,
+    width: '100%',
+    flexDirection: 'row',
+    padding: 15,
     paddingBottom: 5,
     paddingTop: 5,
     marginVertical: 0,

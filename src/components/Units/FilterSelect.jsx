@@ -125,8 +125,9 @@ const SelectFilter = () => {
             marginLeft: 10,
           }}
         >
-          {checkBoxSide.map((side) => (
+          {checkBoxSide.map((side, index) => (
             <CheckBoxOp
+              key={index}
               data={side}
               filter={filterState}
               func={handleCheckBoxChange}
@@ -148,8 +149,9 @@ const SelectFilter = () => {
             marginLeft: 10,
           }}
         >
-          {checkBoxRol.map((rol) => (
+          {checkBoxRol.map((rol, index) => (
             <CheckBoxOp
+              key={index}
               data={rol}
               filter={filterState}
               func={handleCheckBoxChange}
@@ -171,8 +173,9 @@ const SelectFilter = () => {
             marginLeft: 10,
           }}
         >
-          {checkBoxAffiliation.map((aff) => (
+          {checkBoxAffiliation.map((aff, index) => (
             <CheckBoxOp
+              key={index}
               data={aff}
               filter={filterState}
               func={handleCheckBoxChange}
@@ -194,8 +197,9 @@ const SelectFilter = () => {
             marginLeft: 10,
           }}
         >
-          {checkBoxProfession.map((prof) => (
+          {checkBoxProfession.map((prof, index) => (
             <CheckBoxOp
+              key={index}
               data={prof}
               filter={filterState}
               func={handleCheckBoxChange}
@@ -217,8 +221,9 @@ const SelectFilter = () => {
             marginLeft: 10,
           }}
         >
-          {checkBoxSpecies.map((spec) => (
+          {checkBoxSpecies.map((spec, index) => (
             <CheckBoxOp
+              key={index}
               data={spec}
               filter={filterState}
               func={handleCheckBoxChange}

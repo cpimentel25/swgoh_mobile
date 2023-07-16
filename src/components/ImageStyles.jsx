@@ -24,9 +24,6 @@ const style = StyleSheet.create({
 });
 
 export default function StylesImage({ alignment, image }) {
-  const relicFrameAll = {
-    uri: 'https://assets.swgoh.gg/files/assets/character-frame-relic-atlas.b98ef776d9bfe53b.png',
-  };
   const darkRelicFrame = require('../../assets/character-frame-relic-dark-side.png');
   const neutralRelicFrame = require('../../assets/character-frame-relic-neutral-side.png');
   const lightRelicFrame = require('../../assets/character-frame-relic-light-side.png');

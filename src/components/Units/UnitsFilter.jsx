@@ -53,9 +53,9 @@ const UnitsFilterBar = ({ setFilterOp, filterOp }) => {
       >
         <Text style={style.textOp}>FILTER OPTIONS:</Text>
         <View style={{ flexDirection: 'row', flexWrap: 'wrap' }}>
-          {filterListOp?.map((op) => (
-            <View style={style.containerFilterOp}>
-              <Text style={style.textFilterOp}>
+          {filterListOp?.map((op, index) => (
+            <View style={style.containerFilterOp} key={index}>
+              <Text style={style.textFilterOp} key={index}>
                 {op
                   .replace(/([A-Z])/g, ' $1')
                   .toUpperCase()
