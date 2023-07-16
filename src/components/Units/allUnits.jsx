@@ -1,8 +1,8 @@
-import React from 'react';
-import UnitsSwgoh from './unitsSwgoh';
+// import React from 'react';
+// import UnitsSwgoh from './unitsSwgoh';
 
-const AllUnits = () => {
-  return <UnitsSwgoh />;
-};
+// const AllUnits = () => {
+//   return <UnitsSwgoh />;
+// };
 
-export default AllUnits;
+// export default AllUnits;

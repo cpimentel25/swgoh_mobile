@@ -2,18 +2,48 @@ import React, { useEffect, useState } from 'react';
 import { StyleSheet, Text, TextInput, View } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import { setFilterName } from '../../app/redux/slice';
+import { Button } from '@rneui/base';
 import Constants from 'expo-constants';
 import theme from '../../theme';
-import { Button } from '@rneui/base';
+import useSwgohApi from '../hooks/apiSwgoh';
 
 const UnitsFilterBar = ({ setFilterOp, filterOp }) => {
+  const { apiSwgoh } = useSwgohApi();
   const [textInput, setTextInput] = useState('');
   const filterListOp = useSelector((state) => state.swgohReducer.filterOptions);
+  const filterApply = useSelector((state) => state.swgohReducer.filterApply);
   const dispatch = useDispatch();
+
+  const handleFilter = (data) => {
+    // console.log('🚀 ~ UnitsSwgoh ~ categories:', data[1]?.categories);
+    // console.log('🚀 ~ UnitsSwgoh ~ role:', data[2]?.role);
+
+    const sideAlignment =
+      data[0]?.alignment[0] === 'lightSide'
+        ? 2
+        : data[0]?.alignment[0] === 'darkSide'
+        ? 3
+        : data[0]?.alignment[0] === 'neutral'
+        ? 1
+        : [];
+
+    if (data.length > 0) {
+      const filterBySide = apiSwgoh.filter(
+        (item) => item.alignment === sideAlignment
+      );
+      return filterListOp.length > 0 ? console.log('🚀🚀🚀 ~ filterBySide:', filterBySide[0].name) : null;
+      // setFilter(filterBySide);
+    }
+  };
 
   useEffect(() => {
     dispatch(setFilterName(textInput));
   }, [textInput]);
+
+  const handlePress = () => {
+    setFilterOp(!filterOp);
+    filterListOp.length > 0 ? handleFilter(filterApply) : null;
+  };
 
   return (
     <>
@@ -30,28 +60,44 @@ const UnitsFilterBar = ({ setFilterOp, filterOp }) => {
         <View style={{ width: '30%' }}>
           <Button
             buttonStyle={{
-              backgroundColor: theme.colors.yellow,
+              backgroundColor:
+                filterListOp.length > 0 && filterOp
+                  ? theme.colors.lightSide
+                  : theme.colors.yellow,
             }}
             containerStyle={{
               marginLeft: 10,
-              borderColor: theme.colors.yellow,
+              borderColor:
+                filterListOp.length > 0 && filterOp
+                  ? theme.colors.lightSide
+                  : theme.colors.yellow,
               borderWidth: 3,
             }}
-            onPress={() => setFilterOp(!filterOp)}
+            onPress={handlePress}
           >
-            <Text style={{ color: 'black', fontSize: 18 }}>Filters</Text>
+            <Text style={{ color: 'black', fontSize: 18 }}>
+              {filterListOp.length > 0 && filterOp ? 'Apply' : 'Filter'}
+            </Text>
           </Button>
         </View>
       </View>
       <View
         style={{
           flexDirection: 'column',
-          // height: 100,
           paddingLeft: 20,
           paddingRight: 20,
         }}
       >
-        <Text style={style.textOp}>FILTER OPTIONS:</Text>
+        <View
+          style={{
+            flexDirection: 'row',
+            flexWrap: 'nowrap',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+          }}
+        >
+          <Text style={style.textOp}>FILTER OPTIONS:</Text>
+        </View>
         <View style={{ flexDirection: 'row', flexWrap: 'wrap' }}>
           {filterListOp?.map((op, index) => (
             <View style={style.containerFilterOp} key={index}>

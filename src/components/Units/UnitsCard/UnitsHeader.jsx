@@ -1,6 +1,6 @@
 import React from 'react';
 import { View } from 'react-native';
-import StylesImage from '../ImageStyles';
+import StylesImage from '../../ImageStyles';
 
 const UnitsHeader = (data) => {
   return (

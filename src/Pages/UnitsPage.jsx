@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { Link } from 'react-router-native';
-import AllUnits from '../components/Units/allUnits';
-import UnitsFilterBar from '../components/Units/UnitsFilter';
 import SelectFilter from '../components/Units/FilterSelect';
+import UnitsFilterBar from '../components/Units/UnitsSearchBar';
+import UnitsSwgoh from '../components/Units/unitsSwgoh';
 import theme from '../theme';
 
 const UnitsPage = () => {
@@ -15,7 +15,7 @@ const UnitsPage = () => {
         <UnitsFilterBar setFilterOp={setFilterOp} filterOp={filterOp} />
       </View>
       {filterOp && <SelectFilter />}
-      {!filterOp && <AllUnits />}
+      {!filterOp && <UnitsSwgoh />}
       <Link to='/'>
         <Text style={{ color: 'white', fontSize: 40 }}>Back</Text>
       </Link>

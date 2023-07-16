@@ -2,8 +2,8 @@ import React from 'react';
 import { View, StyleSheet } from 'react-native';
 import StylesText from '../TextStyles';
 import theme from '../../theme';
-import UnitsHeader from './UnitsHeader';
-import UnitsCategories from './UnitsCategorie';
+import UnitsCategories from './UnitsCard/UnitsCategorie';
+import UnitsHeader from './UnitsCard/UnitsHeader';
 
 const SwgohItem = ({ data }) => {
   const borderStyles = [
@@ -25,7 +25,6 @@ const SwgohItem = ({ data }) => {
             {data.name}
           </StylesText>
           <UnitsCategories {...data} />
-          {/* <StylesText>{data.description}</StylesText> */}
         </View>
       </View>
     </View>

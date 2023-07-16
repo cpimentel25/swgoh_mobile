@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { ScrollView, StyleSheet, View } from 'react-native';
-import theme from '../../theme';
-import { CheckBox, Divider } from '@rneui/base';
+import { Divider } from '@rneui/base';
 import { useDispatch } from 'react-redux';
-import { setFilterOptions } from '../../app/redux/slice';
+import { setFilterApply, setFilterOptions } from '../../app/redux/slice';
 import CheckBoxOp from './CheckBox';
+import theme from '../../theme';
 
 const SelectFilter = () => {
   const checkBoxSide = ['lightSide', 'darkSide', 'neutral'];
@@ -56,34 +56,96 @@ const SelectFilter = () => {
     'wookiee',
   ];
 
-  //'Object.fromEntries' genera un objeto con todas las opciones como claves
-  // y sus valores iniciales establecidos en false.
-  const initialState = Object.fromEntries(
-    [
-      ...checkBoxSide,
-      ...checkBoxRol,
-      ...checkBoxAffiliation,
-      ...checkBoxProfession,
-      ...checkBoxSpecies,
-    ].map((option) => [option, false])
-  );
+  const alignment = ['lightSide', 'darkSide', 'neutral'];
+  const role = [
+    'support',
+    'attacker',
+    'capitalShip',
+    'healer',
+    'leader',
+    'tank',
+  ];
+  const categories = [
+    '501',
+    'empire',
+    'firstOrder',
+    'galacticRepublic',
+    'huttCartel',
+    'imperialRemnant',
+    'imperialTrooper',
+    'mandalorian',
+    'nightsister',
+    'oldRepublic',
+    'phoenix',
+    'rebel',
+    'rebelFigther',
+    'resistance',
+    'rogueOne',
+    'separatist',
+    'sithEmpire',
+    'badBatch',
+    'bountyHunter',
+    'cloneTrooper',
+    'inquisitorius',
+    'jedi',
+    'scoundrel',
+    'sith',
+    'smuggler',
+    'droid',
+    'ewok',
+    'geonosian',
+    'jawa',
+    'tusken',
+    'wookiee',
+  ];
+
+  const initialState = [
+    { side: [...checkBoxSide] },
+    { rol: [...checkBoxRol] },
+    { categories: [...checkBoxAffiliation] },
+    { profession: [...checkBoxProfession] },
+    { species: [...checkBoxSpecies] },
+  ];
 
   const [filterState, setFilterState] = useState(initialState);
+  const dispatch = useDispatch();
 
-  //Filter true value
+  //Obtener las opciones seleccionadas(true) según los filtros
   const selectOptions = Object.entries(filterState)
     .filter(([key, value]) => value === true)
     .map(([key, value]) => key);
 
-  const dispatch = useDispatch();
+  const applyFilter = [{ alignment: [] }, { categories: [] }, { role: [] }];
 
   useEffect(() => {
+    selectOptions.forEach((value) => {
+      const alignmentIndex = applyFilter.findIndex(
+        (obj) => Object.keys(obj)[0] === 'alignment'
+      );
+      const roleIndex = applyFilter.findIndex(
+        (obj) => Object.keys(obj)[0] === 'role'
+      );
+      const categoriesIndex = applyFilter.findIndex(
+        (obj) => Object.keys(obj)[0] === 'categories'
+      );
+
+      if (alignment.includes(value) && alignmentIndex !== -1) {
+        applyFilter[alignmentIndex].alignment.push(value);
+      }
+      if (role.includes(value) && roleIndex !== -1) {
+        applyFilter[roleIndex].role.push(value);
+      }
+      if (categories.includes(value) && categoriesIndex !== -1) {
+        applyFilter[categoriesIndex].categories.push(value);
+      }
+    });
     dispatch(setFilterOptions(selectOptions));
+    dispatch(setFilterApply(applyFilter));
   }, [selectOptions]);
 
   const handleCheckBoxChange = (stateName) => {
     setFilterState((prevState) => {
-      const updateState = { ...prevState };
+      const updatedState = { ...prevState };
 
       // Obtener el grupo de checkboxes según el stateName
       const checkBoxGroup = checkBoxSide.includes(stateName)
@@ -100,10 +162,10 @@ const SelectFilter = () => {
 
       // Establecer todas las opciones en 'false', excepto la seleccionada
       checkBoxGroup.forEach((option) => {
-        updateState[option] = option === stateName && !prevState[option];
+        updatedState[option] = option === stateName && !prevState[option];
       });
 
-      return updateState;
+      return updatedState;
     });
   };
 

@@ -1,6 +1,6 @@
 import { StyleSheet, Text, View } from 'react-native';
-import StylesText from '../TextStyles';
-import theme from '../../theme';
+import StylesText from '../../TextStyles';
+import theme from '../../../theme';
 
 const UnitsCategories = (data) => {
   const { categories, alignment } = data;
@@ -16,7 +16,7 @@ const UnitsCategories = (data) => {
     },
     containerData: {
       backgroundColor: theme.colors.backgroundFilterOp,
-      marginRight: 4,
+      marginRight: 3,
       marginBottom: 4,
       borderRadius: 3,
       paddingLeft: 7,
@@ -26,7 +26,7 @@ const UnitsCategories = (data) => {
       color: theme.colors.textSecundary,
     },
     alignmentContainter: {
-      marginRight: 8,
+      marginRight: 6,
       fontWeight: 700,
       textShadowColor: 'black',
       textShadowOffset: { width: 1, height: 1.5 },

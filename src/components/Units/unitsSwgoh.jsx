@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { ActivityIndicator, FlatList, View } from 'react-native';
+import { useSelector } from 'react-redux';
 import SwgohItem from './unitsList';
 import useSwgohApi from '../hooks/apiSwgoh';
-import { useSelector } from 'react-redux';
 
 const UnitsSwgoh = () => {
   const { apiSwgoh } = useSwgohApi();

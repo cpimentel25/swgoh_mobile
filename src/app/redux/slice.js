@@ -3,6 +3,7 @@ import { createSlice } from '@reduxjs/toolkit';
 const initialState = {
   filterName: '',
   filterOptions: [],
+  filterApply: [],
 };
 
 export const counterSlice = createSlice({
@@ -14,10 +15,13 @@ export const counterSlice = createSlice({
     },
     setFilterOptions: (state, action) => {
       state.filterOptions = action.payload;
-    }
+    },
+    setFilterApply: (state, action) => {
+      state.filterApply = action.payload;
+    },
   },
 });
 
-export const { setFilterName, setFilterOptions } = counterSlice.actions;
+export const { setFilterName, setFilterOptions, setFilterApply } = counterSlice.actions;
 
 export default counterSlice.reducer;
