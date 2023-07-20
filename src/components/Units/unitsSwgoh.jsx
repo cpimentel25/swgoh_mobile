@@ -1,51 +1,63 @@
-import React, { useEffect, useState } from 'react';
-import { ActivityIndicator, FlatList, View } from 'react-native';
+import React, { useMemo } from 'react';
+import { FlatList, Text, TouchableOpacity, View } from 'react-native';
 import { useSelector } from 'react-redux';
+import { gql, useQuery } from '@apollo/client';
 import SwgohItem from './unitsList';
-import useSwgohApi from '../hooks/apiSwgoh';
+
+const GETDATA_UNITS = gql`
+  query Units {
+    units {
+      name
+      image
+      alignment
+      categories
+    }
+  }
+`;
 
 const UnitsSwgoh = () => {
-  const { apiSwgoh } = useSwgohApi();
-  const [loading, setLoading] = useState(true);
-  const [filter, setFilter] = useState(apiSwgoh);
+  const { loading, error, data } = useQuery(GETDATA_UNITS);
+
   const filterName = useSelector((state) => state.swgohReducer.filterName);
 
-  const filterData = (name) => {
+  const filterData = (name, units) => {
     if (!name || name === '') {
-      setFilter(apiSwgoh);
+      return units;
     } else {
-      const filteredData = apiSwgoh.filter((item) =>
+      return units.filter((item) =>
         item.name.toLowerCase().includes(name.toLowerCase())
       );
-      setFilter(filteredData);
     }
   };
 
-  useEffect(() => {
-    filterData(filterName);
-  }, [filterName]);
+  const filteredData = useMemo(
+    () => filterData(filterName, data?.units || []),
+    [filterName, data?.units]
+  );
 
-  useEffect(() => {
-    setTimeout(() => {
-      setLoading(false);
-    }, 1000);
-  }, []);
-
-  if (loading) {
+  if (loading) return <Text>Loading...</Text>;
+  if (error)
     return (
-      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-        <ActivityIndicator size='large' color='blue' />
+      <View style={{ paddingTop: 30 }}>
+        <Text style={{ color: 'white' }}>Error: {error.message}</Text>
       </View>
     );
-  }
 
-  const dataLoad = filter.length > 0 ? filter : apiSwgoh;
+  const handleClick = (data) => {
+    console.log('🚀🚀🚀 ~ data: ', data);
+  };
+
+  const renderItem = ({ item }) => (
+    <TouchableOpacity onPress={() => handleClick(item)}>
+      <SwgohItem data={item} />
+    </TouchableOpacity>
+  );
 
   return (
     <FlatList
-      data={dataLoad}
+      data={filteredData}
       keyExtractor={(item, index) => index.toString()}
-      renderItem={({ item: data }) => <SwgohItem data={data} />}
+      renderItem={renderItem}
     />
   );
 };

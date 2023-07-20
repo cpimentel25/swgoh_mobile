@@ -13,7 +13,6 @@ const GETDATA_SHIP = gql`
 
 const ShipsSwgoh = () => {
   const { loading, error, data } = useQuery(GETDATA_SHIP);
-  console.log('🚀🚀🚀 ~ ~ ShipsSwgoh ~ data:', data.ships);
 
   if (loading) return <Text>Loading...</Text>;
   if (error)
